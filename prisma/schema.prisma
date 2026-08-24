@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  ADMIN
+  STUDENT
+}
+
+enum LessonStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum TransactionType {
+  PAYMENT
+  LESSON_COMPLETED
+  ADJUSTMENT
+  CANCELLATION_REFUND
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  role      Role     @default(STUDENT)
+  student   Student?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Student {
+  id                  String               @id @default(uuid())
+  userId              String?              @unique
+  user                User?                @relation(fields: [userId], references: [id])
+  name                String
+  level               String?
+  goals               String?
+  status              String               @default("active")
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  lessons             Lesson[]
+  notes               StudentNote[]
+  balanceTransactions BalanceTransaction[]
+}
+
+model Package {
+  id            String @id @default(uuid())
+  name          String
+  lessonCount   Int
+  price         Decimal
+}
+
+model PricingPlan {
+  id             String   @id @default(uuid())
+  studentId      String
+  pricePerLesson Decimal
+  durationMin    Int
+  startDate      DateTime @default(now())
+  endDate        DateTime?
+}
+
+model Lesson {
+  id                 String             @id @default(uuid())
+  studentId          String
+  student            Student            @relation(fields: [studentId], references: [id])
+  dateTime           DateTime
+  status             LessonStatus       @default(SCHEDULED)
+  deletedAt          DateTime?
+  balanceTransaction BalanceTransaction?
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+}
+
+model BalanceTransaction {
+  id        String          @id @default(uuid())
+  studentId String
+  student   Student         @relation(fields: [studentId], references: [id])
+  amount    Decimal
+  type      TransactionType
+  reason    String?
+  lessonId  String?         @unique
+  lesson    Lesson?         @relation(fields: [lessonId], references: [id])
+  createdAt DateTime        @default(now())
+}
+
+model StudentNote {
+  id        String   @id @default(uuid())
+  studentId String
+  student   Student  @relation(fields: [studentId], references: [id])
+  content   String
+  createdAt DateTime @default(now())
+}

@@ -1,0 +1,234 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system: "Party Collage" — bright sticker/collage aesthetic.
+ * Thick ink outlines, hard offset shadows, saturated poster colors on paper.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-lime: var(--lime);
+  --color-lime-foreground: var(--ink);
+  --color-blue: var(--blue);
+  --color-blue-foreground: var(--paper);
+  --color-magenta: var(--magenta);
+  --color-magenta-foreground: var(--paper);
+  --color-sun: var(--sun);
+  --color-sun-foreground: var(--ink);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-chart-1: var(--primary);
+  --color-chart-2: var(--blue);
+  --color-chart-3: var(--sun);
+  --color-chart-4: var(--lime);
+  --color-chart-5: var(--magenta);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --font-display: "Unbounded", system-ui, sans-serif;
+  --font-sans: "Manrope", system-ui, sans-serif;
+}
+
+:root {
+  --radius: 1rem;
+
+  --paper: oklch(0.968 0.012 95);
+  --ink: oklch(0.16 0.02 280);
+
+  --background: oklch(0.968 0.012 95);
+  --foreground: oklch(0.16 0.02 280);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.16 0.02 280);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.16 0.02 280);
+
+  --primary: oklch(0.575 0.235 27);
+  --primary-foreground: oklch(0.985 0.01 95);
+  --secondary: oklch(0.93 0.03 250);
+  --secondary-foreground: oklch(0.16 0.02 280);
+  --muted: oklch(0.93 0.012 95);
+  --muted-foreground: oklch(0.46 0.02 280);
+  --accent: oklch(0.86 0.18 95);
+  --accent-foreground: oklch(0.16 0.02 280);
+  --destructive: oklch(0.575 0.235 27);
+  --destructive-foreground: oklch(0.985 0.01 95);
+
+  --lime: oklch(0.84 0.2 130);
+  --blue: oklch(0.58 0.2 253);
+  --magenta: oklch(0.62 0.25 348);
+  --sun: oklch(0.86 0.18 95);
+
+  --border: oklch(0.16 0.02 280);
+  --input: oklch(0.16 0.02 280);
+  --ring: oklch(0.58 0.2 253);
+
+  --sidebar: oklch(0.985 0.01 95);
+  --sidebar-foreground: oklch(0.16 0.02 280);
+  --sidebar-primary: oklch(0.575 0.235 27);
+  --sidebar-primary-foreground: oklch(0.985 0.01 95);
+  --sidebar-accent: oklch(0.93 0.012 95);
+  --sidebar-accent-foreground: oklch(0.16 0.02 280);
+  --sidebar-border: oklch(0.16 0.02 280);
+  --sidebar-ring: oklch(0.58 0.2 253);
+
+  --shadow-pop: 6px 6px 0 var(--ink);
+  --shadow-pop-sm: 3px 3px 0 var(--ink);
+  --shadow-pop-lg: 10px 10px 0 var(--ink);
+}
+
+.dark {
+  --paper: oklch(0.2 0.02 280);
+  --background: oklch(0.2 0.02 280);
+  --foreground: oklch(0.97 0.01 95);
+  --card: oklch(0.26 0.02 280);
+  --card-foreground: oklch(0.97 0.01 95);
+  --popover: oklch(0.26 0.02 280);
+  --popover-foreground: oklch(0.97 0.01 95);
+  --muted: oklch(0.3 0.02 280);
+  --muted-foreground: oklch(0.75 0.02 280);
+  --border: oklch(0.97 0.01 95);
+  --input: oklch(0.97 0.01 95);
+  --sidebar: oklch(0.26 0.02 280);
+  --sidebar-foreground: oklch(0.97 0.01 95);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    background-image:
+      radial-gradient(circle at 12% 8%, color-mix(in oklab, var(--sun) 45%, transparent) 0, transparent 26%),
+      radial-gradient(circle at 88% 4%, color-mix(in oklab, var(--blue) 30%, transparent) 0, transparent 24%),
+      radial-gradient(circle at 92% 82%, color-mix(in oklab, var(--magenta) 26%, transparent) 0, transparent 26%),
+      radial-gradient(circle at 6% 92%, color-mix(in oklab, var(--lime) 34%, transparent) 0, transparent 24%);
+    background-attachment: fixed;
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+@utility ink-border {
+  border-width: 3px;
+  border-color: var(--ink);
+}
+
+@utility pop {
+  border-width: 3px;
+  border-color: var(--ink);
+  box-shadow: var(--shadow-pop);
+}
+
+@utility pop-sm {
+  border-width: 3px;
+  border-color: var(--ink);
+  box-shadow: var(--shadow-pop-sm);
+}
+
+@utility pop-lg {
+  border-width: 3px;
+  border-color: var(--ink);
+  box-shadow: var(--shadow-pop-lg);
+}
+
+@utility sticker {
+  border-width: 3px;
+  border-color: var(--ink);
+  border-radius: 999px;
+  box-shadow: var(--shadow-pop-sm);
+  padding: 0.25rem 0.85rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+@utility tape {
+  position: relative;
+}
+
+@utility marker-underline {
+  background-image: linear-gradient(
+    to top,
+    color-mix(in oklab, var(--sun) 90%, transparent) 0,
+    color-mix(in oklab, var(--sun) 90%, transparent) 38%,
+    transparent 38%
+  );
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+}
+
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-wiggle {
+  animation: wiggle 3.5s ease-in-out infinite;
+}
+
+.animate-floaty {
+  animation: floaty 5s ease-in-out infinite;
+}
