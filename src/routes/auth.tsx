@@ -13,7 +13,7 @@ import teacherPhoto from "@/assets/teacher.jpg.asset.json";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Вход в личный кабинет — Английский с Арсением" },
+      { title: "Вход в личный кабинет — Английский с Арсенией" },
       {
         name: "description",
         content:
@@ -51,17 +51,18 @@ function AuthPage() {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
         toast.success("С возвращением!");
+        window.location.assign(`${window.location.origin}/cabinet?ts=${Date.now()}`);
       } else if (mode === "signup") {
         const { error } = await supabase.auth.signUp({
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/cabinet`,
             data: { full_name: name },
           },
         });
         if (error) throw error;
-        toast.success("Аккаунт создан! Проверь почту, если потребуется подтверждение.");
+        toast.success("Аккаунт создан!");
+        window.location.assign(`${window.location.origin}/cabinet?ts=${Date.now()}`);
       } else {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
           redirectTo: `${window.location.origin}/cabinet`,

@@ -23,7 +23,7 @@ import {
 export const Route = createFileRoute("/cabinet")({
   head: () => ({
     meta: [
-      { title: "Личный кабинет ученика — Английский с Арсением" },
+      { title: "Личный кабинет ученика — Английский с Арсенией" },
       {
         name: "description",
         content: "Баланс занятий, ближайший урок, расписание, домашние задания и материалы.",
@@ -118,7 +118,7 @@ function Cabinet() {
           <div className="pop rotate-[-1deg] rounded-3xl bg-card p-8">
             <h1 className="font-display text-3xl font-black">Почти готово!</h1>
             <p className="mt-3 font-semibold text-muted-foreground">
-              Аккаунт создан, но карточка ученика ещё не заведена преподавателем. Напиши Арсению —
+              Аккаунт создан, но карточка ученика ещё не заведена преподавателем. Напиши Арсении —
               он привяжет тебя к занятиям, и здесь появится баланс и расписание.
             </p>
             <Button variant="outline" className="mt-6" onClick={signOut}>

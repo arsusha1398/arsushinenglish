@@ -10,7 +10,7 @@ import teacherPhoto from "@/assets/teacher.jpg.asset.json";
 export const Route = createFileRoute("/pricing")({
   head: () => ({
     meta: [
-      { title: "Цены на занятия английским с Арсением" },
+      { title: "Цены на занятия английским с Арсенией" },
       {
         name: "description",
         content:

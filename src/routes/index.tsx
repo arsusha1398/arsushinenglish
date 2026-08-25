@@ -10,13 +10,13 @@ import teacherPhoto from "@/assets/teacher.jpg.asset.json";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Английский с Арсением — занятия для жизни и работы" },
+      { title: "Английский с Арсенией — занятия для жизни и работы" },
       {
         name: "description",
         content:
           "Английский для начинающих и среднего уровня A1–B2, разговорная практика A1–C1, занятия онлайн и вживую.",
       },
-      { property: "og:title", content: "Английский с Арсением" },
+      { property: "og:title", content: "Английский с Арсенией" },
       {
         property: "og:description",
         content:
@@ -153,7 +153,7 @@ function Index() {
             </div>
             <img
               src={teacherPhoto.url}
-              alt="Арсений — преподаватель английского"
+              alt="Арсения — преподаватель английского"
               className="w-full rotate-[2deg] rounded-3xl border-[4px] border-ink object-cover shadow-[12px_12px_0_var(--ink)]"
             />
           </div>
@@ -223,7 +223,7 @@ function Index() {
         <div className="mx-auto grid max-w-6xl gap-8 rounded-3xl border-[3px] border-ink bg-blue p-6 text-blue-foreground shadow-[6px_6px_0_var(--ink)] md:grid-cols-[280px_1fr] md:p-8">
           <img
             src={teacherPhoto.url}
-            alt="Арсений — преподаватель английского"
+            alt="Арсения — преподаватель английского"
             className="w-full rotate-[-2deg] rounded-3xl border-[4px] border-ink object-cover shadow-[8px_8px_0_var(--ink)]"
           />
           <div>

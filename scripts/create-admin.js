@@ -25,7 +25,6 @@ if (user) {
   const { data, error } = await supabase.auth.admin.updateUserById(user.id, {
     email,
     password,
-    email_confirm: true,
   });
   if (error) throw error;
   user = data.user;
@@ -33,8 +32,7 @@ if (user) {
   const { data, error } = await supabase.auth.admin.createUser({
     email,
     password,
-    email_confirm: true,
-    user_metadata: { full_name: "Арсений" },
+    user_metadata: { full_name: "Арсения" },
   });
   if (error) throw error;
   user = data.user;

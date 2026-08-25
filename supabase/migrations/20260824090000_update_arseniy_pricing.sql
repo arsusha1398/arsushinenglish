@@ -16,7 +16,7 @@ INSERT INTO public.packages (title, lessons_count, price, currency, description,
 INSERT INTO public.site_content (key, value) VALUES
   ('hero_title', 'Английский без ступора'),
   ('hero_subtitle', 'Помогаю освоить английский для жизни, работы, учебы и переезда за границу.'),
-  ('teacher_name', 'Арсений'),
+  ('teacher_name', 'Арсения'),
   ('teacher_bio', 'Преподаю английский для начинающих и среднего уровня A1–B2, а разговорный английский — от A1 до C1.'),
   ('teacher_method', 'Помогаю разобраться с временами, научиться задавать вопросы и говорить без ступора. Подстраиваю занятия под жизнь, работу, учебу или переезд за границу.')
 ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = now();

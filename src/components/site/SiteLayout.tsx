@@ -23,7 +23,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
             <span className="rotate-[-3deg] rounded-xl border-[3px] border-ink bg-primary px-3 py-1 font-display text-lg font-black text-primary-foreground shadow-[3px_3px_0_var(--ink)]">
               ENGLISH
             </span>
-            <span className="hidden font-display text-lg font-bold sm:inline">с Арсением</span>
+            <span className="hidden font-display text-lg font-bold sm:inline">с Арсенией</span>
           </Link>
 
           <nav className="hidden items-center gap-1 md:flex">
@@ -78,9 +78,9 @@ export function SiteLayout({ children }: { children: ReactNode }) {
 
       <footer className="mt-16 border-t-[3px] border-ink bg-ink px-4 py-8 text-paper">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4">
-          <p className="font-display text-xl font-black">English с Арсением</p>
+          <p className="font-display text-xl font-black">English с Арсенией</p>
           <p className="text-sm opacity-70">
-            © {new Date().getFullYear()} · Арсений · занятия онлайн и вживую
+            © {new Date().getFullYear()} · Арсения · занятия онлайн и вживую
           </p>
         </div>
       </footer>
