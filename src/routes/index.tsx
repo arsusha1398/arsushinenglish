@@ -223,7 +223,7 @@ function Index() {
         <div className="mx-auto grid max-w-6xl gap-8 rounded-3xl border-[3px] border-ink bg-blue p-6 text-blue-foreground shadow-[6px_6px_0_var(--ink)] md:grid-cols-[280px_1fr] md:p-8">
           <img
             src={teacherPhoto.url}
-            alt="Арсения — преподаватель английского"
+            alt="Арсений — преподаватель английского"
             className="w-full rotate-[-2deg] rounded-3xl border-[4px] border-ink object-cover shadow-[8px_8px_0_var(--ink)]"
           />
           <div>

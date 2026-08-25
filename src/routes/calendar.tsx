@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/calendar")({
-  head: () => ({ meta: [{ title: "Общий календарь — Английский с Арсенией" }] }),
+  head: () => ({ meta: [{ title: "Общий календарь — Английский с Арсением" }] }),
   component: SharedCalendarPage,
 });
 

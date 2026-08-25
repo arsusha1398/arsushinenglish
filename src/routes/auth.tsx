@@ -13,7 +13,7 @@ import teacherPhoto from "@/assets/teacher.jpg.asset.json";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Вход в личный кабинет — Английский с Арсенией" },
+      { title: "Вход в личный кабинет — Английский с Арсением" },
       {
         name: "description",
         content:
