@@ -1,10 +1,13 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ArrowLeft, Mail, Users } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
 import { useAuth } from "@/lib/auth";
 import { fmtDate } from "@/lib/format";
 
@@ -16,7 +19,10 @@ export const Route = createFileRoute("/admin/students")({
 function AdminStudentsPage() {
   const { session, role, loading, signOut } = useAuth();
   const [approvingId, setApprovingId] = useState<string | null>(null);
+  const [savingLevelId, setSavingLevelId] = useState<string | null>(null);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const levels: Database["public"]["Enums"]["eng_level"][] = ["A1", "A2", "B1", "B2", "C1", "C2"];
   const { data: students, isLoading } = useQuery({
     queryKey: ["admin", "students"],
     enabled: role === "admin",
@@ -39,6 +45,21 @@ function AdminStudentsPage() {
     setApprovingId(null);
     if (error) throw error;
     window.location.reload();
+  };
+
+  const updateLevel = async (
+    studentId: string,
+    level: Database["public"]["Enums"]["eng_level"],
+  ) => {
+    setSavingLevelId(studentId);
+    const { error } = await supabase.from("students").update({ level }).eq("id", studentId);
+    setSavingLevelId(null);
+    if (error) {
+      toast.error("Не удалось сохранить уровень");
+      return;
+    }
+    await queryClient.invalidateQueries({ queryKey: ["admin", "students"] });
+    toast.success("Уровень сохранён");
   };
 
   useEffect(() => {
@@ -83,7 +104,7 @@ function AdminStudentsPage() {
                   <div>
                     <p className="font-display text-xl font-black">{student.full_name}</p>
                     <p className="mt-1 font-semibold text-muted-foreground">
-                      {student.level} · {student.is_active ? "активен" : "заявка ожидает одобрения"}
+                      {student.is_active ? "активен" : "заявка ожидает одобрения"}
                     </p>
                   </div>
                   <Users className="size-7" />
@@ -96,6 +117,33 @@ function AdminStudentsPage() {
                   )}
                   {student.phone && <p>{student.phone}</p>}
                   <p className="text-muted-foreground">Добавлен: {fmtDate(student.created_at)}</p>
+                  <div className="flex items-center gap-3 pt-2">
+                    <span className="shrink-0">Уровень</span>
+                    <Select
+                      value={student.level}
+                      onValueChange={(level) =>
+                        updateLevel(
+                          student.id,
+                          level as Database["public"]["Enums"]["eng_level"],
+                        )
+                      }
+                      disabled={savingLevelId === student.id}
+                    >
+                      <SelectTrigger className="w-28 bg-background">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {levels.map((level) => (
+                          <SelectItem key={level} value={level}>
+                            {level}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    {savingLevelId === student.id && (
+                      <span className="text-muted-foreground">Сохраняем…</span>
+                    )}
+                  </div>
                   {!student.is_active && (
                     <Button
                       size="sm"
