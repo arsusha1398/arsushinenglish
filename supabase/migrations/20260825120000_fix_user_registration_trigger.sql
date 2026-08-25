@@ -1,15 +1,4 @@
--- Grant admin access to the existing account.
-CREATE UNIQUE INDEX IF NOT EXISTS students_user_id_unique
-  ON public.students (user_id)
-  WHERE user_id IS NOT NULL;
-
-INSERT INTO public.user_roles (user_id, role)
-SELECT id, 'admin'::public.app_role
-FROM auth.users
-WHERE lower(email) = 'felixisbro055@gmail.com'
-ON CONFLICT (user_id, role) DO NOTHING;
-
--- Keep the same access for this account if it is recreated later.
+-- Fix registration for databases that already ran the previous trigger version.
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
 BEGIN
@@ -31,14 +20,12 @@ BEGIN
 
     IF NOT FOUND THEN
       INSERT INTO public.students (user_id, full_name, email, is_active)
-      VALUES (NEW.id, COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.email), NEW.email, false)
-      ;
+      VALUES (NEW.id, COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.email), NEW.email, false);
     END IF;
   END IF;
   RETURN NEW;
 END; $$;
 
--- Create student records for existing non-admin accounts that predate the trigger.
 INSERT INTO public.students (user_id, full_name, email, is_active)
 SELECT
   u.id,
