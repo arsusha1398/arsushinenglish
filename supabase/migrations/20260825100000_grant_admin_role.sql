@@ -37,3 +37,17 @@ BEGIN
   END IF;
   RETURN NEW;
 END; $$;
+
+-- Create student records for existing non-admin accounts that predate the trigger.
+INSERT INTO public.students (user_id, full_name, email, is_active)
+SELECT
+  u.id,
+  COALESCE(u.raw_user_meta_data->>'full_name', u.email),
+  u.email,
+  false
+FROM auth.users u
+WHERE lower(u.email) <> 'felixisbro055@gmail.com'
+  AND NOT EXISTS (
+    SELECT 1 FROM public.students s WHERE s.user_id = u.id
+  )
+ON CONFLICT (user_id) DO NOTHING;
