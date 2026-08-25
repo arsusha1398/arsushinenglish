@@ -39,7 +39,10 @@ function AuthPage() {
 
   useEffect(() => {
     if (!loading && session && role) {
-      navigate({ to: role === "admin" ? "/admin" : "/cabinet" });
+      const target = role === "admin" ? "/admin" : "/cabinet";
+      if (window.location.pathname !== target) {
+        navigate({ to: target });
+      }
     }
   }, [session, role, loading, navigate]);
 
@@ -51,7 +54,6 @@ function AuthPage() {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
         toast.success("С возвращением!");
-        window.location.assign(`${window.location.origin}/cabinet?ts=${Date.now()}`);
       } else if (mode === "signup") {
         const { error } = await supabase.auth.signUp({
           email,
@@ -62,7 +64,6 @@ function AuthPage() {
         });
         if (error) throw error;
         toast.success("Аккаунт создан!");
-        window.location.assign(`${window.location.origin}/cabinet?ts=${Date.now()}`);
       } else {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
           redirectTo: `${window.location.origin}/cabinet`,
@@ -78,10 +79,14 @@ function AuthPage() {
   };
 
   const google = async () => {
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
+    const redirectTo = `${window.location.origin}/auth`;
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo,
+      },
     });
-    if (result.error) {
+    if (error) {
       toast.error("Не удалось войти через Google");
       return;
     }

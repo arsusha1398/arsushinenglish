@@ -8,7 +8,7 @@ import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/admin")({
-  head: () => ({ meta: [{ title: "Админ-панель — English с Арсенией" }] }),
+  head: () => ({ meta: [{ title: "Админ-панель — English с Арсением" }] }),
   component: AdminPage,
 });
 
@@ -61,7 +61,7 @@ function AdminPage() {
             <span className="sticker rotate-[-2deg] bg-magenta text-magenta-foreground">
               Админ-панель
             </span>
-            <h1 className="mt-4 font-display text-4xl font-black">Привет, Арсения!</h1>
+            <h1 className="mt-4 font-display text-4xl font-black">Привет, Арсений!</h1>
             <p className="mt-2 font-semibold text-muted-foreground">
               Управление учениками, расписанием и информацией сайта.
             </p>
@@ -127,7 +127,7 @@ function AdminPage() {
             to="/admin/management"
           />
           <div className="pop rounded-3xl bg-sun p-6">
-            <p className="font-display text-xl font-black">Связаться с Арсенией</p>
+            <p className="font-display text-xl font-black">Связаться с Арсением</p>
             <div className="mt-4 flex flex-wrap gap-2">
               <a
                 className="sticker bg-card"

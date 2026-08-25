@@ -8,13 +8,13 @@ import teacherPhoto from "@/assets/teacher.jpg.asset.json";
 export const Route = createFileRoute("/teacher")({
   head: () => ({
     meta: [
-      { title: "Преподаватель — Арсения, репетитор английского" },
+      { title: "Преподаватель — Арсений, репетитор английского" },
       {
         name: "description",
         content:
-          "Арсения. Преподаю английский для начинающих и среднего уровня A1–B2, а разговорный английский — от A1 до C1.",
+          "Арсений. Преподаю английский для начинающих и среднего уровня A1–B2, а разговорный английский — от A1 до C1.",
       },
-      { property: "og:title", content: "Преподаватель — Арсения" },
+      { property: "og:title", content: "Преподаватель — Арсений" },
       { property: "og:description", content: "Опыт, методика и подход к занятиям английским." },
     ],
   }),
@@ -39,14 +39,14 @@ function TeacherPage() {
         <div className="relative">
           <img
             src={teacherPhoto.url}
-            alt="Арсения, преподаватель английского"
+            alt="Арсений, преподаватель английского"
             className="w-full rotate-[-2deg] rounded-3xl border-[4px] border-ink object-cover shadow-[10px_10px_0_var(--ink)]"
           />
         </div>
 
         <div>
           <h1 className="font-display text-4xl font-black md:text-6xl">
-            {content?.["teacher_name"] ?? "Арсения"}
+            {content?.["teacher_name"] ?? "Арсений"}
           </h1>
           <p className="mt-5 text-lg font-medium leading-relaxed">
             {content?.["teacher_bio"] ??
