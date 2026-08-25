@@ -39,7 +39,7 @@ export const Route = createFileRoute("/cabinet")({
 });
 
 function Cabinet() {
-  const { session, role, studentId, loading, signOut } = useAuth();
+  const { session, user, role, studentId, loading, signOut } = useAuth();
   const navigate = useNavigate();
   const qc = useQueryClient();
 
@@ -100,32 +100,15 @@ function Cabinet() {
     if (data?.student) {
       setPhone(data.student.phone ?? "");
       setEmail(data.student.email ?? "");
+    } else if (user?.email) {
+      setEmail(user.email);
     }
-  }, [data?.student]);
+  }, [data?.student, user?.email]);
 
   if (loading || !session) {
     return (
       <SiteLayout>
         <p className="p-12 text-center font-display text-xl">Загружаем кабинет…</p>
-      </SiteLayout>
-    );
-  }
-
-  if (!studentId) {
-    return (
-      <SiteLayout>
-        <div className="mx-auto max-w-lg px-4 py-16 text-center">
-          <div className="pop rotate-[-1deg] rounded-3xl bg-card p-8">
-            <h1 className="font-display text-3xl font-black">Почти готово!</h1>
-            <p className="mt-3 font-semibold text-muted-foreground">
-              Аккаунт создан, но карточка ученика ещё не заведена преподавателем. Напиши Арсении —
-              он привяжет тебя к занятиям, и здесь появится баланс и расписание.
-            </p>
-            <Button variant="outline" className="mt-6" onClick={signOut}>
-              Выйти
-            </Button>
-          </div>
-        </div>
       </SiteLayout>
     );
   }
@@ -137,6 +120,10 @@ function Cabinet() {
   const balance = data?.balance ?? 0;
 
   const saveProfile = async () => {
+    if (!studentId) {
+      toast.error("Профиль ученика ещё не подключён");
+      return;
+    }
     const { error } = await supabase.from("students").update({ phone, email }).eq("id", studentId);
     if (error) toast.error("Не удалось сохранить");
     else {
@@ -162,8 +149,8 @@ function Cabinet() {
             <span className="sticker rotate-[-2deg] bg-magenta text-magenta-foreground">
               Кабинет
             </span>
-            <h1 className="mt-3 font-display text-4xl font-black">
-              Привет, {data?.student?.full_name?.split(" ")[0] ?? "друг"}!
+              <h1 className="mt-3 font-display text-4xl font-black">
+                Привет, {data?.student?.full_name?.split(" ")[0] ?? user?.user_metadata?.full_name ?? "друг"}!
             </h1>
           </div>
           <Button variant="outline" onClick={signOut}>
@@ -196,7 +183,7 @@ function Cabinet() {
           </div>
         </div>
 
-        <Tabs defaultValue="schedule" className="mt-8">
+        <Tabs defaultValue={studentId ? "schedule" : "profile"} className="mt-8">
           <TabsList className="flex h-auto flex-wrap gap-2 border-[3px] border-ink bg-card p-2">
             <TabsTrigger
               value="schedule"
@@ -352,19 +339,21 @@ function Cabinet() {
             <div className="pop rounded-3xl bg-card p-6">
               <div className="flex items-center gap-3">
                 <User className="size-6" />
-                <p className="font-display text-xl font-black">{data?.student?.full_name}</p>
+                <p className="font-display text-xl font-black">
+                  {data?.student?.full_name ?? user?.user_metadata?.full_name ?? user?.email}
+                </p>
               </div>
-              <div className="mt-4 flex flex-wrap gap-2">
+              {data?.student && <div className="mt-4 flex flex-wrap gap-2">
                 <span className="sticker bg-sun">
-                  <GraduationCap className="size-3.5" /> Уровень {data?.student?.level}
+                  <GraduationCap className="size-3.5" /> Уровень {data.student.level}
                 </span>
                 {data?.student?.target_level && (
                   <span className="sticker bg-lime">Цель: {data.student.target_level}</span>
                 )}
                 <span className="sticker bg-card">
-                  <BookOpen className="size-3.5" /> с {fmtDate(data?.student?.start_date ?? "")}
+                  <BookOpen className="size-3.5" /> с {fmtDate(data.student.start_date ?? "")}
                 </span>
-              </div>
+              </div>}
 
               <div className="mt-6 grid gap-4 sm:grid-cols-2">
                 <div className="space-y-1.5">
@@ -386,7 +375,7 @@ function Cabinet() {
                   />
                 </div>
               </div>
-              <Button className="mt-4" onClick={saveProfile}>
+              <Button className="mt-4" onClick={saveProfile} disabled={!studentId}>
                 Сохранить
               </Button>
 

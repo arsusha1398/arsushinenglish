@@ -56,7 +56,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           .from("students")
           .select("id")
           .eq("user_id", uid)
-          .eq("is_active", true)
           .maybeSingle(),
       ]);
       if (cancelled) return;

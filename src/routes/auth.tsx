@@ -55,7 +55,7 @@ function AuthPage() {
         if (error) throw error;
         toast.success("С возвращением!");
       } else if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -64,6 +64,7 @@ function AuthPage() {
         });
         if (error) throw error;
         toast.success("Аккаунт создан!");
+        if (data.session) navigate({ to: "/cabinet" });
       } else {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
           redirectTo: `${window.location.origin}/cabinet`,
