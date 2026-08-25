@@ -1,4 +1,8 @@
 -- Grant admin access to the existing account.
+CREATE UNIQUE INDEX IF NOT EXISTS students_user_id_unique
+  ON public.students (user_id)
+  WHERE user_id IS NOT NULL;
+
 INSERT INTO public.user_roles (user_id, role)
 SELECT id, 'admin'::public.app_role
 FROM auth.users
@@ -21,12 +25,15 @@ BEGIN
   ON CONFLICT (user_id, role) DO NOTHING;
 
   IF lower(NEW.email) <> 'felixisbro055@gmail.com' THEN
-    INSERT INTO public.students (user_id, full_name, email, is_active)
-    VALUES (NEW.id, COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.email), NEW.email, false)
-    ON CONFLICT (user_id) DO NOTHING;
-  END IF;
-
-  UPDATE public.students SET user_id = NEW.id
+    UPDATE public.students
+    SET user_id = NEW.id
     WHERE user_id IS NULL AND lower(email) = lower(NEW.email);
+
+    IF NOT FOUND THEN
+      INSERT INTO public.students (user_id, full_name, email, is_active)
+      VALUES (NEW.id, COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.email), NEW.email, false)
+      ON CONFLICT (user_id) DO NOTHING;
+    END IF;
+  END IF;
   RETURN NEW;
 END; $$;
